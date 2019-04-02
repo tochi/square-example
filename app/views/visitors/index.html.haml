@@ -1,0 +1,27 @@
+%h1 Squareとの連携
+
+= text_field_tag :price, 100
+= button_tag '送信'
+
+:javascript
+  const button = document.getElementsByName('button')[0]
+  button.addEventListener('click', () => {
+    const price = document.getElementsByName('price')[0]
+    const dataParameter = {
+      amount_money: {
+        amount: price.value,
+        currency_code: 'JPY'
+      },
+      callback_url: 'https://domain-name.com/visitors/new',
+      client_id: 'Application ID',
+      version: '1.3',
+      notes: 'notes for the transaction',
+      options: {
+        supported_tender_types: ['CREDIT_CARD','CASH','OTHER','SQUARE_GIFT_CARD','CARD_ON_FILE']
+      }
+    };
+
+    window.location =
+      'square-commerce-v1://payment/create?data=' +
+      encodeURIComponent(JSON.stringify(dataParameter));
+  })
